@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import{ FormGroup,FormBuilder,Validators,FormControl} from '@angular/forms'
-import{AuthenticationServiceModule} from '../services/Firebase-Authentication.service';
+import{AuthenticationService} from '../services/Firebase-Authentication.service';
 import {NavController} from '@ionic/angular';
 
 
@@ -63,7 +63,7 @@ export class RegisterPage implements OnInit {
 
 constructor(
 
-  private authService: AuthenticationServiceModule,
+  private authService: AuthenticationService,
   private navCtrl: NavController,
   private formBuilder: FormBuilder
   
