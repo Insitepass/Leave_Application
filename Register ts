@@ -1,0 +1,93 @@
+import { Component, OnInit } from '@angular/core';
+import{ FormGroup,FormBuilder,Validators,FormControl} from '@angular/forms'
+import{AuthenticationServiceModule} from '../services/Firebase-Authentication.service';
+import {NavController} from '@ionic/angular';
+
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
+})
+export class RegisterPage implements OnInit {
+
+  validations_form: FormGroup;
+  errorMessage: string = '';
+  successMessage: string = '';
+ 
+
+  
+  Name: string = ""
+  LastName: string=""
+  Email: string=""
+  Company:string=""
+  Phone:number 
+  Password:string=""
+  ConfirmPassword:string=""
+
+
+  validation_messages = {
+    'Email': [
+      { type: 'required', message: 'Email is required.' },
+      { type: 'pattern', message: 'Enter a valid email.' }
+    ],
+    'Password': [
+      { type: 'required', message: 'Password is required.' },
+      { type: 'minlength', message: 'Password must be at least 8 characters long.' }
+    ],
+    'ConfrimPassword': [
+      {type: 'required',message:'Password do not match'}
+    ]
+    
+  };
+  
+
+  ngOnInit() {
+    this.validations_form = this.formBuilder.group({
+      Email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ])),
+      Password: new FormControl('', Validators.compose([
+        Validators.minLength(8),
+        Validators.required
+      ])),
+      ConfirmPassword:new FormControl('',Validators.compose([
+        Validators.minLength(8),
+        Validators.required
+      ]))
+    });
+  }
+  
+
+
+constructor(
+
+  private authService: AuthenticationServiceModule,
+  private navCtrl: NavController,
+  private formBuilder: FormBuilder
+  
+  ){}
+
+  Register(value){
+    this.authService.RegisterUser(value)
+     .then(res => {
+       console.log(res);
+       this.errorMessage = "";
+       this.successMessage = "Your account has been created. Please log in.";
+     }, err => {
+       console.log(err);
+       this.errorMessage = err.message;
+       this.successMessage = "";
+     })
+     if (this.Password !== this.ConfirmPassword){
+       alert('Passwords do not match');
+       return;
+     }
+     this.navCtrl.navigateBack('login');
+  }
+ 
+  goLoginPage(){
+    this.navCtrl.navigateBack('login');
+  }
+}
