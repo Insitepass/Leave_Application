@@ -1,0 +1,61 @@
+// this the register page html
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--Ok cool so this works as in it does connect to firebase , now you need to modifiy it , then do the login-->
+<ion-content>
+  <ion-content padding>
+    <form class="form" [formGroup]="validations_form"  (ngSubmit)="Register(validations_form.value)">
+   <ion-item>
+     <ion-input type="text" placeholder="Name"></ion-input>
+   </ion-item>
+   <ion-item>
+     <ion-input type="text"placeholder="LastName"></ion-input>
+   </ion-item>
+      <ion-item>
+        <ion-input type="text" formControlName="Email" placeholder="Email" ></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.Email">
+          <div class="error-message" *ngIf="validations_form.get('Email').hasError(validation.type) && (validations_form.get('Email').dirty || validations_form.get('Email').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+        <ion-input type="text" placeholder="Company"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="phone" placeholder="Phone" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="Password" formControlName="Password" class="form-controll" placeholder="Password" required></ion-input>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.Password">
+          <div class="error-message" *ngIf="validations_form.get('Password').hasError(validation.type) && (validations_form.get('Password').dirty || validations_form.get('Password').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+      <ion-input type="Password" formControlName="ConfirmPassword" class="form-controll" placeholder="ConfirmPassword"></ion-input>
+    </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.ConfrimPassword">
+          <div class="error-message" *ngIf="validations_form.get('ConfirmPassword').hasError(validation.type) && (validations_form.get('ConfirmPassword').dirty || validations_form.get('ConfirmPassword').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <ion-button  class="submit-btn" type="submit"  [disabled]="!validations_form.valid">Register</ion-button>
+      <label class="error-message">{{errorMessage}}</label>
+      <label class="success-message">{{successMessage}}</label>
+    </form>
+    <p class="go-to-login">Already have an account? <a (click)="goLoginPage()">Try to Log In.</a></p>
+</ion-content>
