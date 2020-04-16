@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 
 
 @Injectable()
-export class AuthenticationServiceModule {
+export class AuthenticationService {
    
    
      
