@@ -1,0 +1,79 @@
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { DatabaseService, ApplicationClass } from '../services/database.service';
+
+@Component({
+  selector: 'app-applyfor-leave',
+  templateUrl: './applyfor-leave.page.html',
+  styleUrls: ['./applyfor-leave.page.scss'],
+})
+export class ApplyforLeavePage implements OnInit {
+
+ 
+// this is not nessacry might remove.
+  constructor(private db:DatabaseService) { }
+
+  ngOnInit() {
+    
+    
+    
+  }
+
+  
+
+  items = [ 
+    {
+      name: 'Dashboard ',
+      page: '/dashboard',
+      open :'',
+      icon:'home'
+    },
+
+    {
+    name : 'Leave Management',
+
+   children : [
+        {
+          name: ' Leave',
+          page: '/leave',
+          icon: 'information-circle-outline'
+
+        },
+
+     {
+       
+         name: 'Apply for leave',
+         page : '/applyfor-leave',
+         icon: 'add-circle-outline'
+
+     },
+
+     {
+      name: 'Leave Status',
+      page: '/leave-stats',
+      icon: 'stats'
+
+
+     },
+
+     { 
+       name: 'Calendar',
+       page: '/calender',
+       icon: 'calendar'
+
+
+     }
+
+     
+
+   ]
+
+    }
+
+  ];
+
+ information: any [];
+  loadChildren: any;
+  
+
+}
