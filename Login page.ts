@@ -3,7 +3,7 @@
 import { Component ,OnInit} from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import {AuthenticationServiceModule} from '../services/Firebase-Authentication.service';
+import {AuthenticationService} from '../services/Firebase-Authentication.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 
@@ -20,7 +20,7 @@ export class HomePage {
   
  
  
- constructor(private navCtrl:NavController,private authService:AuthenticationServic, private formBuilder:FormBuilder) {}
+ constructor(private navCtrl:NavController,private authService:AuthenticationService, private formBuilder:FormBuilder) {}
  
 ngOnInit(){
 
