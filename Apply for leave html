@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-button slot="start" menuId="one" contentId="content">
+    <ion-menu-button></ion-menu-button>
+  </ion-button>
+    <ion-title>ApplyforLeave</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-card>
+            <ion-title>
+            <ion-label>Information</ion-label> 
+            </ion-title>
+            <ion-card-content>
+              <ion-item> <ion-label>Start date </ion-label>
+                <ion-datetime  value="2020-02-21" display-timezone="utc" placeholder="Select Date" ></ion-datetime>
+              </ion-item>
+              <ion-item>
+             <ion-label>End date </ion-label>
+             <ion-datetime  value="2020-02-21" display-timezone="utc" placeholder="Select Date" ></ion-datetime>
+            </ion-item >
+            <ion-item>
+                  <ion-label>
+                    Type of Leave 
+                  </ion-label>
+                  <ion-select placeholder="select one">
+                    <ion-select-option value="Casual">Casual</ion-select-option>
+                    <ion-select-option value="Annual">Annual</ion-select-option>
+                    <ion-select-option value="Sick">Sick</ion-select-option>
+                    <ion-select-option value="Medical">Medical</ion-select-option>
+                    <ion-select-option value="Maternity">Maternity</ion-select-option>
+                    <ion-select-option value="Paternity">Paternity</ion-select-option>
+                    <ion-select-option value="Family Responsibility">Family Responsibility</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Number of Days </ion-label>
+                <ion-input type="number">  </ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Reason :</ion-label>
+                  <ion-textarea></ion-textarea>
+                </ion-item>
+                <ion-item>
+                  <ion-label></ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Attachments :</ion-label>
+                  <ion-button color="secondary" >upload file
+                  <ion-icon slot="start" name="cloud-upload"></ion-icon>
+                  </ion-button>
+                </ion-item>
+                <ion-item float-right>
+                  <ion-button  Fill="outline" color="danger"  size="default">Clear</ion-button>
+                </ion-item>
+                  <ion-item float-right>
+                  <ion-button size="default" > Request</ion-button>
+                </ion-item>
+                <ion-item>
+                  <ion-button fill="outline" size="defualt" >Override</ion-button>
+                </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+  <ion-menu side="start" contentId="content" menuId="one"> 
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+
+   
+    
+
+  <!--Menu Code starts here-->
+<ion-content>
+<div *ngFor="let p of items">
+<ion-menu-toggle *ngIf="p.page">
+<ion-item [routerLink] = "p.page" routerDirection="root" routerLinkActive="active">
+  <ion-icon slot="start" [name]="p.icon"></ion-icon>
+  <ion-label>
+    {{p.name}}
+  </ion-label>
+</ion-item>
+</ion-menu-toggle>
+
+
+<!--Main tab-->
+<ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open" detail="false">
+<ion-icon slot="start" name="arrow-forward" *ngIf="!p.open"></ion-icon>
+<ion-icon slot="start" name="arrow-down" *ngIf="p.open"></ion-icon>
+<ion-label>Leave Management </ion-label>
+</ion-item>
+
+<!--Sub items -->
+<ion-list *ngIf="p.open">
+<ion-menu-toggle>
+<ion-item class="sub-item" *ngFor ="let sub of p.children" [routerLink]= "sub.page" routerDirection="root" routerLinkActive="active">
+<ion-icon slot="start" [name]="sub.icon"></ion-icon>
+<ion-label>
+{{sub.name}}
+</ion-label>
+</ion-item>
+</ion-menu-toggle>
+</ion-list>
+</div>
+<ion-item routerLink="/register" routerDirection="root" routerLinkActive="active-item">
+  <ion-icon slot="start" name="settings"></ion-icon>
+  <ion-label>
+    Settings
+  </ion-label>
+  </ion-item>
+</ion-content>
+</ion-menu>
+<!--this is importent otherwise the menu will not show-->
+<ion-router-outlet id="content" main ></ion-router-outlet>
+
+
