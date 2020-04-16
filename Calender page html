@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-button slot="start"  menuId="one" contentId="content" > 
+      <ion-menu-button></ion-menu-button>
+    </ion-button>
+    <ion-title>Calender</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<!-- side menue code -->
+<ion-menu side="start" contentId="content" menuId="one"> 
+    
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+<div *ngFor="let p of items">
+<ion-menu-toggle *ngIf="p.page">
+<ion-item [routerLink] = "p.page" routerDirection="root" routerLinkActive="active">
+  <ion-icon slot="start" [name]="p.icon"></ion-icon>
+  <ion-label>
+    {{p.name}}
+  </ion-label>
+</ion-item>
+</ion-menu-toggle>
+<!--Main tab-->
+<ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open" detail="false">
+<ion-icon slot="start" name="arrow-forward" *ngIf="!p.open"></ion-icon>
+<ion-icon slot="start" name="arrow-down" *ngIf="p.open"></ion-icon>
+<ion-label>Leave Management </ion-label>
+</ion-item>
+
+<!--Sub items -->
+<ion-list *ngIf="p.open">
+<ion-menu-toggle>
+<ion-item class="sub-item" *ngFor ="let sub of p.children" [routerLink]= "sub.page" routerDirection="root" routerLinkActive="active">
+<ion-icon slot="start" [name]="sub.icon"></ion-icon>
+<ion-label>
+{{sub.name}}
+</ion-label>
+</ion-item>
+</ion-menu-toggle>
+</ion-list>
+</div>
+<ion-item routerLink="/register" routerDirection="root" routerLinkActive="active-item">
+<ion-icon slot="start" name="settings"></ion-icon>
+<ion-label>
+  Settings
+</ion-label>
+</ion-item>
+</ion-content>
+</ion-menu>
+<!--this is importent otherwise the menu will not show-->
+<ion-router-outlet id="content" main ></ion-router-outlet>
+
+
+<ion-content>
+  <ion-card>
+  
+  <ion-card-header tappable (click)="collapseCard=!collapseCard">
+    <ion-card-title>New Event</ion-card-title>
+  </ion-card-header>
+  <ion-card-content *ngIf="!collapseCard">
+<ion-item>
+  <ion-input type="text" placeholder="Title" [(ngModel)]="event.title"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-input type="text" placeholder="Description" [(ngModel)]="event.desc"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label>Start</ion-label>
+  <ion-datetime displayFormat = "MM/DD/YYYY HH:mm" pickerFormat="MMM D: HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+</ion-item>
+<ion-item>
+  <ion-label>End</ion-label>
+  <ion-datetime displayformate = "MM/DD/YYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endtime" [min]="minDate"></ion-datetime>
+</ion-item>
+<ion-item>
+  <ion-label>All Day?</ion-label>
+  <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
+</ion-item>
+<ion-button fill="outline" expand="block" (click)="addEvent()" [disabled]="event.title ==''">Add Event</ion-button>
+</ion-card-content>
+</ion-card>
+
+
+<!-- types of Modes to Change the display of the  calendar-->
+<ion-row justify-content:space-between>
+
+
+  <!--Move back one screen of the slides left -->
+<ion-col  text-left>
+  <ion-button fill="clear" (click)="back()">
+    <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+  </ion-button>
+</ion-col>
+
+
+  <ion-col>
+  <ion-button expand="block" (click)="today()">Today</ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button expand="block" [color]="calendar.mode == 'month'? 'primary': 'secondary'" (click)="changeMode('month')">Month</ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button expand="block" [color]="calendar.mode == 'week'? 'primary':  'secondary'"(click)="changeMode('week')">Week</ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button expand="block" [color]="calendar.mode == 'day'? 'primary' :  'secondary'" (click)="changeMode('day')">Day</ion-button>
+  </ion-col>
+
+
+
+<!--Move forward one secreen of the slides right -->
+<ion-col  text-right>
+  <ion-button fill="clear" (click)="next()">
+    <ion-icon name="arrow-forward" slot="icon-only">
+    </ion-icon>
+  </ion-button>
+</ion-col>
+
+ </ion-row>
+
+ <calendar 
+ [eventSource]="eventSource"
+ [calendarMode] ="calendar.mode"
+ [currentDate] = "calendar.currentDate"
+ (onEventSelected) ="onEventSelected($event)"
+ (onTitleChanged)="onViewTitleChanged($event)"
+ (onTimeSelected)="onTimeSelected($event)"
+ startHour="6"
+ endHour="20"
+ step="30"
+ startingDayWeek = "1">
+</calendar>
+</ion-content>
