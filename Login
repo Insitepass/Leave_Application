@@ -1,0 +1,45 @@
+// This is the html of the login page
+
+<ion-content>
+  <div class="logo ion-padding">
+    <ion-img class="logo-img" src="assets\img\leave_logo2.PNG"> </ion-img>
+  </div>
+
+
+  <form class="form" [formGroup]="validationform"  (ngSubmit)="LoginUser(validationform.value)">
+    <ion-item class="email-space" >
+      <ion-input type="text" formControlName="Email" placeholder="Email"></ion-input>
+      <ion-icon name="mail" slot="start"></ion-icon>
+    </ion-item>
+
+    <div class="validation-errors" class="email-space">
+      <ng-container *ngFor="let validation of validation_messages.Email">
+        <div class="error-message" *ngIf="validationform.get('Email').hasError(validation.type) && (validationform.get('Email').dirty || validationform.get('Email').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item class="password-space">
+      <ion-input type="Password" formControlName="Password" class="form-controll"  placeholder="Password" required></ion-input>
+      <ion-icon name="lock" slot="start"></ion-icon>
+    </ion-item>
+    <div class="validation-errors" class="password-space">
+      <ng-container *ngFor="let validation of validation_messages.Password">
+        <div class="error-message" *ngIf="validationform.get('Password').hasError(validation.type) && (validationform.get('Password').dirty || validationform.get('Password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <ion-button  class="submit-btn" type="submit"   [disabled]="!validationform.valid" expand="block">Log In</ion-button>
+    <label class="error-message">{{errormessage}}</label>
+
+    <ion-item>
+      <ion-label text-start="start" color="primary" (click)="ForgotPassword()"> 
+        Forgot Password?</ion-label>
+      <ion-label text-end="end" color="primary" (click)="RegisterPage()">
+        Register
+      </ion-label>
+    </ion-item>
+  </form>
+</ion-content>
