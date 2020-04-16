@@ -1,0 +1,25 @@
+.logo-img{
+display: block;
+max-width: 50%;
+height: auto;
+margin: 0 auto;
+text-align: center;
+
+}
+
+.Forgotpassword{
+    text-align: right;
+    
+
+}
+.email-space{
+    margin: 16px;
+}
+.password-space {
+
+    margin: 16px;
+}
+.submit-btn {
+    margin: 16px;
+    
+}
