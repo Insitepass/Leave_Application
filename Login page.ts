@@ -20,7 +20,7 @@ export class HomePage {
   
  
  
- constructor(private navCtrl:NavController,private authService:AuthenticationServiceModule, private formBuilder:FormBuilder) {}
+ constructor(private navCtrl:NavController,private authService:AuthenticationServic, private formBuilder:FormBuilder) {}
  
 ngOnInit(){
 
