@@ -8,6 +8,8 @@
 </ion-header>
 
 <ion-content fullscreen>
+<ion-content fullscreen>
+  <form class="container" [formGroup]="infoForm" (ngSubmit)="submitform()">
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -18,17 +20,17 @@
             </ion-title>
             <ion-card-content>
               <ion-item> <ion-label>Start date </ion-label>
-                <ion-datetime  value="2020-02-21" display-timezone="utc" placeholder="Select Date" ></ion-datetime>
+              <ion-datetime formControlName="Leave_startdate" value="2020-02-21" display-timezone="utc" placeholder="Select Date" ></ion-datetime>
               </ion-item>
               <ion-item>
              <ion-label>End date </ion-label>
-             <ion-datetime  value="2020-02-21" display-timezone="utc" placeholder="Select Date" ></ion-datetime>
+             <ion-datetime formControlName="Leave_enddate" value="2020-02-21" display-timezone="utc" placeholder="Select Date" ></ion-datetime>
             </ion-item >
             <ion-item>
                   <ion-label>
                     Type of Leave 
                   </ion-label>
-                  <ion-select placeholder="select one">
+                  <ion-select formControlName="Leave_Type" placeholder="select one">
                     <ion-select-option value="Casual">Casual</ion-select-option>
                     <ion-select-option value="Annual">Annual</ion-select-option>
                     <ion-select-option value="Sick">Sick</ion-select-option>
@@ -40,11 +42,7 @@
                 </ion-item>
                 <ion-item>
                   <ion-label>Number of Days </ion-label>
-                <ion-input type="number">  </ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Reason :</ion-label>
-                  <ion-textarea></ion-textarea>
+                <ion-input formControlName="Leave_days" type="number" > </ion-input>
                 </ion-item>
                 <ion-item>
                   <ion-label></ion-label>
@@ -55,21 +53,19 @@
                   <ion-icon slot="start" name="cloud-upload"></ion-icon>
                   </ion-button>
                 </ion-item>
-                <ion-item float-right>
-                  <ion-button  Fill="outline" color="danger"  size="default">Clear</ion-button>
-                </ion-item>
-                  <ion-item float-right>
-                  <ion-button size="default" > Request</ion-button>
-                </ion-item>
                 <ion-item>
-                  <ion-button fill="outline" size="defualt" >Override</ion-button>
-                </ion-item>
+                <ion-button shape="round" color="primary" expand="block" [disabled]="!infoForm.valid" (click)="Apply()">
+                  Apply
+                </ion-button>
+               </ion-item>
             </ion-card-content>
           </ion-card>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
+</form>
+</ion-content>
 </ion-content>
 
   <ion-menu side="start" contentId="content" menuId="one"> 
