@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DatabaseService, ApplicationClass } from '../services/database.service';
+import {ActivatedRoute,Router} from '@angular/router';
+import { FormBuilder,FormGroup,Validators} from '@angular/forms';
+import { NavController } from '@ionic/angular';
+import * as firebase from 'firebase';
+
 
 @Component({
   selector: 'app-applyfor-leave',
@@ -9,16 +12,54 @@ import { DatabaseService, ApplicationClass } from '../services/database.service'
 })
 export class ApplyforLeavePage implements OnInit {
 
- 
-// this is not nessacry might remove.
-  constructor(private db:DatabaseService) { }
+ ref = firebase.database().ref('Application/');
+  infoForm: FormGroup;
+  
+  constructor(
+    public route:ActivatedRoute,
+    public router:Router,
+    private navCtrl:NavController,
+    private formBuilder:FormBuilder
+    ) 
+
+
+       { 
+ this.infoForm = this.formBuilder.group({
+   'Leave_startdate': [null,Validators.required],
+   'Leave_enddate' : [null,Validators.required],
+   'Leave_Type' : [null,Validators.required],
+   'Leave_days' : [null,Validators.required]
+ });
+
+    
+    }
+/// This adds data in firebase Data.
+    Apply() {
+      let newInfo = firebase.database().ref('Application/').push();
+      newInfo.set(this.infoForm.value);
+      this.router.navigate(['/leave/'+newInfo.key]);
+      this.navCtrl.navigateBack('leave');
+    }
+
+    submitform() {
+
+console.log(this.infoForm.value)
+    }
+
+     getDate(e){
+      let date = new Date(e.target.value).toDateString().substring(0,10);
+      this.infoForm.get('startdate').setValue(date,{
+        onlyself:true
+      })
+      this.infoForm.get('enddate').setValue(date,{
+        onlyself:true
+      })
+    }
 
   ngOnInit() {
-    
-    
-    
+   
   }
-
+ 
   
 
   items = [ 
