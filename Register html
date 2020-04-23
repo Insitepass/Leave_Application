@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<!--Ok cool so this works as in it does connect to firebase , now you need to modifiy it , then do the login-->
+
 <ion-content>
   <ion-content padding>
     <form class="form" [formGroup]="validations_form"  (ngSubmit)="Register(validations_form.value)">
