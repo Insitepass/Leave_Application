@@ -12,11 +12,25 @@
   <ion-content padding>
     <form class="form" [formGroup]="validations_form"  (ngSubmit)="Register(validations_form.value)">
    <ion-item>
-     <ion-input type="text" placeholder="Name"></ion-input>
+     <ion-input type="text"  formControlName="Name" placeholder="Name"></ion-input>
    </ion-item>
+   <div class="validation-erros">
+    <ng-container *ngFor="let validation of validation_messages.Name">
+      <div class="error-message" *ngIf="validations_form.get('Name').hasError(validation.type) && (validations_form.get('Name').dirty || validations_form.get('Name').touched)">
+        {{ validation.message }}
+      </div>
+    </ng-container>
+   </div>
    <ion-item>
-     <ion-input type="text"placeholder="LastName"></ion-input>
+     <ion-input type="text" formControlName="LastName" placeholder="LastName"></ion-input>
    </ion-item>
+    <div class="validation-erros">
+    <ng-container *ngFor="let validation of validation_messages.LastName">
+      <div class="error-message" *ngIf="validations_form.get('LastName').hasError(validation.type) && (validations_form.get('LastName').dirty || validations_form.get('LastName').touched)">
+        {{ validation.message }}
+      </div>
+    </ng-container>
+   </div>
       <ion-item>
         <ion-input type="text" formControlName="Email" placeholder="Email" ></ion-input>
       </ion-item>
@@ -28,11 +42,25 @@
         </ng-container>
       </div>
       <ion-item>
-        <ion-input type="text" placeholder="Company"></ion-input>
+        <ion-input type="text" formControlName="Company" placeholder="Company"></ion-input>
       </ion-item>
+      <div class="validation-erros">
+        <ng-container *ngFor="let validation of validation_messages.Company">
+          <div class="error-message" *ngIf="validations_form.get('Company').hasError(validation.type) && (validations_form.get('Company').dirty || validations_form.get('Company').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+       </div>
       <ion-item>
-        <ion-input type="phone" placeholder="Phone" ></ion-input>
+        <ion-input type="phone" formControlName="Phone" placeholder="Phone" ></ion-input>
       </ion-item>
+      <div class="validation-erros">
+        <ng-container *ngFor="let validation of validation_messages.Phone">
+          <div class="error-message" *ngIf="validations_form.get('Phone').hasError(validation.type) && (validations_form.get('Phone').dirty || validations_form.get('Phone').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+       </div>
       <ion-item>
         <ion-input type="Password" formControlName="Password" class="form-controll" placeholder="Password" required></ion-input>
       </ion-item>
@@ -53,7 +81,7 @@
           </div>
         </ng-container>
       </div>
-      <ion-button  class="submit-btn" type="submit"  [disabled]="!validations_form.valid">Register</ion-button>
+      <ion-button  class="submit-btn" type="submit" (click)="Register()">Register</ion-button>
       <label class="error-message">{{errorMessage}}</label>
       <label class="success-message">{{successMessage}}</label>
     </form>
