@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import{ FormGroup,FormBuilder,Validators,FormControl} from '@angular/forms'
 import{AuthenticationService} from '../services/Firebase-Authentication.service';
 import {NavController} from '@ionic/angular';
+import * as firebase from 'firebase';
+import {ActivatedRoute,Router} from '@angular/router';
 
 
 @Component({
@@ -10,6 +12,9 @@ import {NavController} from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+
+ref = firebase.database().ref('Profile/');
+
 
   validations_form: FormGroup;
   errorMessage: string = '';
@@ -37,8 +42,23 @@ export class RegisterPage implements OnInit {
     ],
     'ConfrimPassword': [
       {type: 'required',message:'Password do not match'}
+    ],
+    'Name': [
+      { type: 'required', message:''}
+    ],
+    'LastName': [
+      { type: 'required',message:''}
+    ],
+    'Company': [
+      {
+        type:'required', message:''
+      }
+    ],
+    'Phone': [
+      {
+        type:'required',message:''
+      }
     ]
-    
   };
   
 
@@ -54,6 +74,22 @@ export class RegisterPage implements OnInit {
       ])),
       ConfirmPassword:new FormControl('',Validators.compose([
         Validators.minLength(8),
+        Validators.required
+      ])),
+      ConfirmPassword:new FormControl('',Validators.compose([
+        Validators.minLength(8),
+        Validators.required
+      ])),
+      Name: new FormControl('',Validators.compose([
+      Validators.required
+      ])),
+      LastName: new FormControl('',Validators.compose([
+        Validators.required
+      ])),
+      Company: new FormControl('',Validators.compose([
+        Validators.required
+      ])),
+      Phone: new FormControl('',Validators.compose([
         Validators.required
       ]))
     });
@@ -84,6 +120,10 @@ constructor(
        alert('Passwords do not match');
        return;
      }
+     // This adds the Users Info in Profiles in the Firebase Database
+     let newProfile = firebase.database().ref('Profile/')
+     newProfile.set(this.validations_form.value);
+     this.router.navigate(['/login/'+newProfile.key]);
      this.navCtrl.navigateBack('login');
   }
  
