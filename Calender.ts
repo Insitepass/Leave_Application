@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Inject , LOCALE_ID,QueryList, ViewChildren } from '@angular/core';
-import {NgCalendarModule} from 'ionic2-calendar';
+import {NgCalendarModule} from 'ionic2-calendar'; // remeber to add the NgCalendarModule in the calendar.module.ts or else you will get an error.
 import {CalendarComponent} from 'ionic2-calendar/calendar';
 import { format } from 'url';
 import { formatDate } from '@angular/common';
