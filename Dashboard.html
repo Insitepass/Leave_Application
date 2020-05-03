@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-toolbar toolbar color ="primary">
+    <ion-button slot="start"  menuId="one" contentId="content" > 
+    <ion-menu-button></ion-menu-button>
+  </ion-button>
+    <ion-title class="heading">Dashboard</ion-title>
+    <ion-button slot="end" (click)=" Logout()">
+      logout
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background">
+  <section class="section">
+    <ion-icon class="person" name="person-circle-outline"></ion-icon>
+    <ion-grid>
+      <ion-row>
+        <ion-col text-center>
+          Welcome to Dashboard!
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col text-right>
+        loggedin as:  {{userEmail}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>  
+  </section>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <!--Leave Details Cards-->
+        <div>
+          <ion-card *ngFor="let Display of Display" text-center padding>
+            <ion-card-content>
+              <ion-card-title color="primary">Leave Details</ion-card-title>
+              <ion-label>Leave Type</ion-label>
+              <p>{{Display.Leave_Type}}</p> 
+              <ion-label>Startdate:</ion-label>
+              <p>{{Display.Leave_startdate}}</p>
+              <ion-label>Endate:</ion-label>
+              <p>{{Display.Leave_enddate}}</p>
+              <ion-label>Leave Status:</ion-label>
+              <p>{{Display.Status}}</p>
+            </ion-card-content>
+            </ion-card>
+        </div>
+      </ion-col>
+      <ion-col>
+        <!--Profile card  this card is a componet -->
+       
+         <app-profile></app-profile>
+      
+      </ion-col>
+    </ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <!--Calender card-->
+          <div>
+            <ion-card>
+              <ion-card-content>
+              <ion-card-title color="primary">
+                Today's Date
+              </ion-card-title>
+            <ion-calendar [(ngModel)]="date"
+            (onChange)="onChange($event)"
+            [type]="type"
+            [format]="'YYYY-MM-DD'">
+             </ion-calendar>
+            </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+          <ion-card>
+ <ion-card-content>
+   <ion-card-title color="primary">
+     Leave States
+   </ion-card-title>
+   <!--line chart-->
+   <ion-card-content>
+    <canvas #lineCanvas></canvas>
+  </ion-card-content>
+</ion-card-content>
+          </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+ 
+</ion-content>
+
+
+
+
+      
+
+
+
+<!-- side menue code -->
+<ion-menu side="start" contentId="content" menuId="one"> 
+  
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+<div *ngFor="let p of items">
+<ion-menu-toggle *ngIf="p.page">
+<ion-item [routerLink] = "p.page" routerDirection="root" routerLinkActive="active">
+  <ion-icon slot="start" [name]="p.icon"></ion-icon>
+  <ion-label>
+    {{p.name}}
+  </ion-label>
+</ion-item>
+</ion-menu-toggle>
+<!--Main tab-->
+<ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open" detail="false">
+<ion-icon slot="start" name="arrow-forward" *ngIf="!p.open"></ion-icon>
+<ion-icon slot="start" name="arrow-down" *ngIf="p.open"></ion-icon>
+<ion-label>Leave Management </ion-label>
+</ion-item>
+
+<!--Sub items -->
+<ion-list *ngIf="p.open">
+<ion-menu-toggle>
+  
+<ion-item class="sub-item" *ngFor ="let sub of p.children" [routerLink]= "sub.page" routerDirection="root" routerLinkActive="active">
+<ion-icon slot="start" [name]="sub.icon"></ion-icon>
+<ion-label>
+{{sub.name}}
+</ion-label>
+</ion-item>
+</ion-menu-toggle>
+</ion-list>
+</div>
+<ion-item routerLink="/register" routerDirection="root" routerLinkActive="active-item">
+<ion-icon slot="start" name="settings"></ion-icon>
+<ion-label>
+  Settings
+</ion-label>
+</ion-item>
+</ion-content>
+</ion-menu>
+<!--this is importent otherwise the menu will not show-->
+<ion-router-outlet id="content" main ></ion-router-outlet>
