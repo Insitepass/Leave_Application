@@ -1,0 +1,17 @@
+<ion-content>
+<ion-card *ngFor="let Profile of Profile">
+  <ion-card-content>
+    <ion-card-title color="primary">Your Profile</ion-card-title>
+    <ion-label>Where you work:</ion-label>
+    <p>{{Profile.Company}}</p>
+    <ion-label>Your Name:</ion-label>
+    <p>{{Profile.Name}}</p>
+    <ion-label>Your last Name:</ion-label>
+    <p>{{Profile.LastName}}</p>
+    <ion-label>Phone:</ion-label>
+    <p>{{Profile.Phone}}</p>
+  </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-content>
+  
