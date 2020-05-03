@@ -1,0 +1,70 @@
+import { Component, OnInit } from '@angular/core';
+import* as firebase from 'firebase';
+import { Router, ActivatedRoute} from '@angular/router';
+import { snapshotToArray } from 'src/app/leave/leave.page';
+import { Key } from 'protractor';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { auth } from 'firebase';
+import { Observable } from 'rxjs';
+
+@Component({
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
+})
+export class ProfileComponent  {
+ 
+  
+  Profile = [];
+  info = {};
+  ref = firebase.database().ref('/');
+  constructor( public route:ActivatedRoute)  {
+    this.getInfo();
+
+    this.ref.on('value',resp => {
+      this.Profile = snapshotToArray2(resp);
+    }); 
+    
+    }
+
+
+    getInfo() {
+     firebase.database().ref('Profile/').once('value',(snapshot) => {
+      this.info = snapshotToObject(snapshot);
+      
+     });
+     
+       
+    
+  }
+
+   /* var prof = firebase.database().ref('Profile/');
+    prof.once('value').then(function(snapshot){
+      var key = snapshot.key;
+      var childKey = snapshot.child('Profile/Company').val();
+      var childKey1 = snapshot.child('Profile/Name').val();
+      var childKey2 = snapshot.child('Profile/LastName').val();
+      var childKey3 = snapshot.child('Profile/Phone').val();
+      this.Profile = snapshotToObject(resp);
+      */
+  
+    }
+
+  export const snapshotToArray2 = snapshot => {
+    let returnArr1 = [];
+  
+    snapshot.forEach((childSnapshot: { val:() =>any; key: any; }) => {
+        let item = childSnapshot.val();
+        item.key = childSnapshot.key;
+        returnArr1.push(item);
+    });
+  
+    return returnArr1;
+  };
+  
+export const snapshotToObject = snapshot => {
+  let item = snapshot.val();
+  item.key = snapshot.key;
+
+  return item;
+}
