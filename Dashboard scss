@@ -1,0 +1,14 @@
+.heading {
+
+    text-align: center;
+}
+.section {
+    text-align: center;
+}
+.person {
+
+    font-size: 50px;
+}
+.background {
+ --ion-color-primary-contrast: #1190cb; 
+ }
