@@ -1,0 +1,172 @@
+import { Component, OnInit ,ViewChild,ElementRef} from '@angular/core';
+import { MenuController, NavController, LoadingController } from '@ionic/angular';
+import {AuthenticationService} from '../Services/Authentication-Service.service';
+import { Router} from '@angular/router';
+import* as firebase from 'firebase';
+import { snapshotToArray } from '../leave/leave.page';
+import {Chart} from 'chart.js';
+import { from } from 'rxjs';
+
+
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.page.html',
+  styleUrls: ['./dashboard.page.scss'],
+})
+export class DashboardPage implements OnInit {
+  date: string[];
+  type: 'string';
+
+@ViewChild("lineCanvas",{static:true}) lineCanvas:ElementRef;
+private lineChart: Chart;
+
+
+userEmail : string;
+ref = firebase.database().ref('Application/');
+
+Display = [];
+
+  constructor(private menuCtrl:MenuController,
+    private navCtrl:NavController,
+    private authService:AuthenticationService,
+    public router:Router,
+    public loadingController:LoadingController,
+
+    )
+     {
+       this.ref.on('value',resp => {
+       this.Display = [];
+       this.Display = snapshotToArray(resp);
+     }); 
+  }
+
+     onChange(Event) {
+      console.log(Event);
+  
+  }
+
+
+  /* 
+
+  ****TODO****
+ link line chart to firebase database to display leaves applied.
+  
+ */
+
+  ngOnInit()
+  {
+  if(this.authService.userDetails()){
+    this.userEmail = this.authService.userDetails().email;
+  }
+  else{
+    this.navCtrl.navigateBack('login');
+  }
+// line chart code.
+  this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+    type: "line",
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [
+        {
+          label: "leaves applied",
+          fill: false,
+          lineTension: 0.1,
+          backgroundColor: "rgba(75,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          borderCapStyle: "butt",
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: "miter",
+          pointBorderColor: "rgba(75,192,192,1)",
+          pointBackgroundColor: "#fff",
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: [65, 59, 80, 81, 56, 55, 40],
+          spanGaps: false
+        }
+      ]
+    }
+  });
+
+ 
+
+  
+
+  }
+  items = [ 
+    {
+      name: 'Dashboard ',
+      page: '/dashboard ',
+      open :'',
+      icon:'home'
+    },
+    {
+    name : 'Leave Management',
+
+   children : [
+        {
+          name: ' Leave',
+          page: '/leave',
+          icon: 'information-circle-outline'
+
+        },
+
+     {
+       
+         name: 'Apply for leave',
+         page : '/apply-for-leave',
+         icon: 'add-circle-outline'
+
+     },
+
+    
+     { 
+       name: 'Calendar',
+       page: '/calendar/',
+       icon: 'calendar'
+
+
+     } 
+   ]
+
+    }
+
+  ];
+
+ information: any [];
+  loadChildren: any;
+  toggleItem(index,childIndex) {
+
+    this.information[index].children[childIndex].open = !this.information[index].children;
+     }
+  
+      Logout(){
+        this.authService.LogoutUser()
+        .then(res => {
+          console.log(res);
+          this.navCtrl.navigateBack('');
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      }
+    
+      openMenu() {
+    
+    this.menuCtrl.toggle();
+      }
+    
+    }
+   
+  
+ 
+
+
+
+
+
